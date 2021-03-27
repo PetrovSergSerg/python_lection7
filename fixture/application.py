@@ -10,7 +10,9 @@ class Application:
         if browser == "firefox":
             self.wd = webdriver.Firefox()
         elif browser == "chrome":
-            self.wd = webdriver.Chrome()  # 'C:\\Tools\\chromedriver.exe')
+            options = webdriver.ChromeOptions()
+            options.add_experimental_option('excludeSwitches', ['enable-logging'])
+            self.wd = webdriver.Chrome(options=options)  # 'C:\\Tools\\chromedriver.exe')
         elif browser == "ie":
             self.wd = webdriver.Ie()
         else:

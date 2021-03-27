@@ -20,25 +20,35 @@ class Group:
         if bool(getrandbits(1)):
             self.name = '' if randint(0, 4) < 1 else utils.get_random_word(c.ALPHABET, randint(3, 10))
         if bool(getrandbits(1)):
-            self.header = '' if randint(0, 4) < 1 else utils.get_random_word(c.ALPHABET + ' '*5, randint(10, 20))
+            self.header = '' if randint(0, 4) < 1 else utils.get_random_word(c.ALPHABET + ' ' * 5, randint(10, 20))
         if bool(getrandbits(1)):
-            self.footer = '' if randint(0, 4) < 1 else utils.get_random_word(c.ALPHABET + ' '*5, randint(10, 20))
+            self.footer = '' if randint(0, 4) < 1 else utils.get_random_word(c.ALPHABET + ' ' * 5, randint(10, 20))
         return self
 
     def set_all_parameters_to_random_value(self):
         self.name = utils.get_random_word(c.ALPHABET, randint(3, 10))
-        self.header = utils.get_random_word(c.ALPHABET + ' '*5, randint(10, 20))
-        self.footer = utils.get_random_word(c.ALPHABET + ' '*5, randint(10, 20))
+        self.header = utils.get_random_word(c.ALPHABET + ' ' * 5, randint(10, 20))
+        self.footer = utils.get_random_word(c.ALPHABET + ' ' * 5, randint(10, 20))
         return self
+
+    def update(self, to):
+        if to.name is not None:
+            self.name = to.name
+
+        if to.header is not None:
+            self.header = to.header
+
+        if to.footer is not None:
+            self.footer = to.footer
 
     def __eq__(self, other):
         return (self.id is None
                 or other.id is None
                 or self.id == other.id) \
-               and self.name == other.name
+               and utils.remove_spaces(self.name) == utils.remove_spaces(other.name)
 
     def __repr__(self):
-        return f'Group({"id="+self.id+", " if self.id is not None else ""}' \
+        return f'Group({"id=" + self.id + ", " if self.id is not None else ""}' \
                f'name="{self.name}", header="{self.header}", footer="{self.footer}")'
 
     def __lt__(self, other):

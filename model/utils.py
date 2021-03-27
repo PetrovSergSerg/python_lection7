@@ -27,10 +27,14 @@ def random_string(prefix: str, max_length: int):
 
 
 def clear(string):
-    return re.sub("[() -]", "", string)
+    return re.sub("[() -/]", "", string)
 
 
 def xstr(string):
     if string is None:
         return ""
     return str(string)
+
+
+def remove_spaces(string):
+    return ' '.join(xstr(string).strip().split())

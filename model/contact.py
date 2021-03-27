@@ -2,6 +2,7 @@ from random import randint, getrandbits, choice
 import model.utils as utils
 import datetime
 import data.constants as c
+import string
 
 
 class Contact:
@@ -240,17 +241,19 @@ class Contact:
         return (self.id is None
                 or other.id is None
                 or self.id == other.id) \
-               and utils.xstr(self.lastname) == utils.xstr(other.lastname) \
-               and utils.xstr(self.firstname) == utils.xstr(other.firstname) \
-               and ' '.join(utils.xstr(self.address).strip().split()) == ' '.join(utils.xstr(other.address).strip().split()) \
-               and self.emails == other.emails \
-               and self.phones == other.phones
+               and utils.remove_spaces(self.lastname) == utils.remove_spaces(other.lastname) \
+               and utils.remove_spaces(self.firstname) == utils.remove_spaces(other.firstname) \
+               and utils.remove_spaces(self.address) == utils.remove_spaces(other.address) \
+               and utils.clear(self.emails) == utils.clear(other.emails) \
+               and utils.clear(self.phones) == utils.clear(other.phones)
 
     def __repr__(self):
         fio = [self.lastname, self.firstname]
-        return f'Contact({"id="+self.id+", " if self.id is not None else ""}' \
+        return f'Contact({"id=" + self.id + ", " if self.id is not None else ""}' \
                f'FIO="{" ".join(filter(lambda x: x is not None and x != "", fio))}", ' \
-               f'ADDRESS="{self.address}"'
+               f'ADDRESS="{self.address}", ' \
+               f'EMAILS="{self.emails}", ' \
+               f'PHONES="{self.phones}")'
 
     def __lt__(self, other):
         # None >> any integer

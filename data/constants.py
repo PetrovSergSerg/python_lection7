@@ -8,4 +8,4 @@ MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augus
 NUMBERS = string.digits
 MOBILE_CODES = ['903', '905', '906', '915', '916', '925', '926', '999']
 ALPHABET = string.ascii_letters
-SYMBOLS = string.ascii_letters + string.digits + string.punctuation + " " * 15
+SYMBOLS = string.ascii_letters + string.digits + r"#$%&()*+,-./:;?@[]^_`{|}~" + " " * 15

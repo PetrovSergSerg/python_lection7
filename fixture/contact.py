@@ -33,10 +33,11 @@ class ContactHelper:
         index = randint(0, len(entry_list) - 1)
         entry = entry_list[index]
 
+        contact_id = entry.find_element_by_name("selected[]").get_attribute("id")
+
         edit = entry.find_element_by_xpath(".//img[@title='Edit']")
         edit.click()
 
-        contact_old_state = self.grab_data()
         self.fill_contact(contact)
 
         update = wd.find_element_by_xpath("//input[@type='submit'][@value='Update']")
@@ -46,7 +47,7 @@ class ContactHelper:
 
         self.contact_cache = None
 
-        return index, contact_old_state
+        return contact_id
 
     contact_cache = None
 
