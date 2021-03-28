@@ -5,7 +5,7 @@ import importlib
 import jsonpickle
 from fixture.application import Application
 from fixture.db import DbFixture
-
+from fixture.orm import ORMFixture
 
 fixture = None
 config = None
@@ -44,7 +44,20 @@ def db(request):
 
     def finalizer():
         dbfixture.destroy()
+
     request.addfinalizer(finalizer)
+    return dbfixture
+
+
+@pytest.fixture(scope="session")
+def orm(request):
+    db_config = load_config(request.config.getoption("--config"))["db"]
+
+    dbfixture = ORMFixture(host=db_config["host"],
+                    name=db_config["name"],
+                    user=db_config["user"],
+                    password=db_config["password"])
+
     return dbfixture
 
 
@@ -69,6 +82,7 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="firefox")
     parser.addoption("--config", action="store", default="config.json")
     parser.addoption("--check_ui", action="store")
+
 
 def pytest_generate_tests(metafunc):
     for fixture in metafunc.fixturenames:

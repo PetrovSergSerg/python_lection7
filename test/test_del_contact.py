@@ -8,7 +8,7 @@ def test_delete_any_contact_from_list(app, db, check_ui):
     old_contacts = db.get_contact_list()
 
     # get id of randomly chosen contact
-    removed_contact_id = app.contact.delete_any_contact_form_list()
+    removed_contact_id = app.contact.delete_any_contact_from_list()
 
     # expected list = old list without removed element
     expected_contact_list = list(filter(lambda c: c.id != removed_contact_id, old_contacts))

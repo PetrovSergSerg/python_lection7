@@ -3,6 +3,7 @@ from datetime import datetime
 from model.group import Group
 from model.contact import Contact
 # from pymysql.converters import decoders
+from random import shuffle
 
 
 class ORMFixture:
@@ -22,6 +23,14 @@ class ORMFixture:
         id = PrimaryKey(int, column='id')
         firstname = Optional(str, column='firstname')
         lastname = Optional(str, column='lastname')
+        address = Optional(str, column='address')
+        email_main = Optional(str, column='email')
+        email_secondary = Optional(str, column='email2')
+        email_other = Optional(str, column='email3')
+        phone_work = Optional(str, column='work')
+        phone_home = Optional(str, column='home')
+        phone_secondary = Optional(str, column='phone2')
+        mobile = Optional(str, column='mobile')
         deprecated = Optional(datetime, column='deprecated')
         groups = Set(lambda: ORMFixture.ORMGroup,
                      table='address_in_groups', column='group_id', reverse='contacts', lazy=True)
@@ -38,7 +47,11 @@ class ORMFixture:
 
     def convert_contacts_to_model(self, contacts):
         def convert(c: Contact):
-            return Contact(id=str(c.id), firstname=c.firstname, lastname=c.lastname)
+            return Contact(id=str(c.id), firstname=c.firstname, lastname=c.lastname, address=c.address,
+                           email_main=c.email_main, email_secondary=c.email_secondary, email_other=c.email_other,
+                           phone_work=c.phone_work, phone_home=c.phone_home, phone_secondary=c.phone_secondary,
+                           mobile=c.mobile
+                           )
         return list(map(convert, contacts))
 
     @db_session
@@ -61,3 +74,31 @@ class ORMFixture:
                                    if c.deprecated is None and
                                    orm_group not in c.groups)
         return self.convert_contacts_to_model(orm_contacts)
+
+    def get_random_group_and_contacts_not_in_bind(self):
+        group = Group()
+        contact_list = []
+        group_list = self.get_group_list()
+        shuffle(group_list)
+
+        for g in group_list:
+            contact_list = self.get_contacts_not_in_group(g)
+            if len(contact_list) > 0:
+                group = g
+                break
+
+        return group, contact_list
+
+    def get_random_group_and_contacts_in_bind(self):
+        group = Group()
+        contact_list = []
+        group_list = self.get_group_list()
+        shuffle(group_list)
+
+        for g in group_list:
+            contact_list = self.get_contacts_in_group(g)
+            if len(contact_list) > 0:
+                group = g
+                break
+
+        return group, contact_list
