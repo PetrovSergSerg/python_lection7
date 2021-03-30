@@ -18,7 +18,7 @@ def test_add_contacts_to_group(app, orm, check_ui):
     app.contact.create(Contact().set_all_parameters_to_random_value())
     # get random group and contact_list which are not in bind
     (group, contact_list_from_db) = orm.get_random_group_and_contacts_not_in_bind()
-    # get all contacts in chosen group (it may be ampty, may be not)
+    # get all contacts in chosen group (it may be empty, may be not)
     old_contact_list = orm.get_contacts_in_group(group)
     # get sublist of all contacts which are not in chosen group for adding to it
     contact_sublist = sample(contact_list_from_db, randint(1, len(contact_list_from_db)))
