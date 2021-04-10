@@ -1,6 +1,6 @@
-jsonpickle = '>=2.0.0'
-mysql-connector-python = '>=8.0.23'
-pony = '>=0.7.14'
-pytest = '>=6.2.2'
-selenium = '>=3.141.0'
-pymysql = '>=1.0.2'
+jsonpickle
+mysql-connector-python
+pony
+pytest
+selenium
+pymysql
