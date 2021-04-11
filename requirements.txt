@@ -4,3 +4,5 @@ pony
 pytest
 selenium
 pymysql
+lxml-4.6.3-cp39-cp39-win_amd64.whl
+allure-pytest
